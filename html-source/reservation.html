@@ -17,6 +17,10 @@
       crossorigin="anonymous"
     />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+
+
     <style>
       .my-footer {
         height: 5em;
@@ -29,6 +33,10 @@
 
       .room-image {
         max-width: 50%;
+      }
+
+      .redText{
+        color: red;
       }
     </style>
   </head>
@@ -103,51 +111,79 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
           <h1 class="mt-5">Search for Availablity</h1>
-          <form action="reservation.html" method="get">
-            <div class="form-row">
-              <div class="col">
-                <div class="mb-3 form-group">
-                  <label for="start_date" class="form-label"
-                    >Starting <Dlg></Dlg>Date</label
-                  >
-                  <input
-                    required
-                    type="date"
-                    class="form-control"
-                    id="start_date"
-                    name="start_date"
-                    aria-describedby="startDateHelp"
-                  />
-                  <div id="startDateHelp" class="form-text text-muted">
-                    Your arrival date in DD-MMM-YYYY format.
-                  </div>
-                </div>
-              </div>
+          <form action="reservation.html" method="get" novalidate class="needs-validation">
+<!--            <div class="form-row">-->
+<!--              <div class="col">-->
+<!--                <div class="mb-3 form-group">-->
+<!--                  <label for="start_date" class="form-label"-->
+<!--                    >Starting <Dlg></Dlg>Date</label-->
+<!--                  >-->
+<!--                  <input-->
+<!--                    required-->
+<!--                    type="date"-->
+<!--                    class="form-control"-->
+<!--                    id="start_date"-->
+<!--                    name="start_date"-->
+<!--                    aria-describedby="startDateHelp"-->
+<!--                  />-->
+<!--                  <div id="startDateHelp" class="form-text text-muted">-->
+<!--                    Your arrival date in DD-MMM-YYYY format.-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
 
+<!--              <div class="col">-->
+<!--                <div class="mb-3 form-group">-->
+<!--                  <label for="end_date" class="form-label"-->
+<!--                    >Ending <Dlg></Dlg>Date</label-->
+<!--                  >-->
+<!--                  <input-->
+<!--                    required-->
+<!--                    type="date"-->
+<!--                    class="form-control"-->
+<!--                    id="end_date"-->
+<!--                    name="end_date"-->
+<!--                    aria-describedby="endDateHelp"-->
+<!--                  />-->
+<!--                  <div id="endDateHelp" class="form-text text-muted">-->
+<!--                    Your Departure date in DD-MMM-YYYY format.-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+            <div class="form-row" >
               <div class="col">
-                <div class="mb-3 form-group">
-                  <label for="end_date" class="form-label"
-                    >Ending <Dlg></Dlg>Date</label
-                  >
-                  <input
-                    required
-                    type="date"
-                    class="form-control"
-                    id="end_date"
-                    name="end_date"
-                    aria-describedby="endDateHelp"
-                  />
-                  <div id="endDateHelp" class="form-text text-muted">
-                    Your Departure date in DD-MMM-YYYY format.
+                <div class="form-row" id="reservation-dates">
+
+                  <div class="col">
+                    <input class="form-control" type="text" name="start" required placeholder="Arrival Date">
+
+                  </div>
+
+                  <div class="col">
+                    <input class="form-control" type="text" name="end" required placeholder="Departure Date">
+
                   </div>
                 </div>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">
+            <hr>
+
+            <button type="submit" class="btn btn-primary mt-2">
               Search Availablity
             </button>
           </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <p id="myParagraph">This is some text</p>
+          <p>
+            <button class="btn btn-outline-secondary" id="colorButton">Click me</button>
+          </p>
         </div>
       </div>
     </div>
@@ -162,6 +198,8 @@
       </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -172,5 +210,48 @@
       integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
       crossorigin="anonymous"
     ></script>
+
+
+  <script>
+    console.log("Print from js");
+
+    (function () {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      let forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+              .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                  if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                  }
+
+                  form.classList.add('was-validated')
+                }, false)
+              })
+    })()
+
+    document.getElementById("colorButton").addEventListener("click", function (){
+      let myEl = document.getElementById("myParagraph");
+
+      if(myEl.classList.contains("redText")){
+        myEl.classList.remove("redText");
+      }else{
+        myEl.classList.add("redText");
+      }
+
+
+    })
+
+    const elem = document.getElementById('reservation-dates');
+    const rangePicker = new DateRangePicker(elem, {
+      format: "yyyy-mm-dd",
+    });
+
+  </script>
   </body>
 </html>
