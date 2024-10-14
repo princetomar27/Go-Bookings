@@ -35,9 +35,10 @@
         max-width: 50%;
       }
 
-      .redText{
-        color: red;
-      }
+     .notie-container{
+       box-shadow: none ;
+     }
+
     </style>
   </head>
 
@@ -211,12 +212,14 @@
       crossorigin="anonymous"
     ></script>
 
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <script src="https://unpkg.com/notie"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 
     <script>
-    console.log("Print from js");
+
+      let attention = Prompt();
 
     (function () {
       'use strict'
@@ -239,13 +242,20 @@
     })()
 
     document.getElementById("colorButton").addEventListener("click", function (){
-      let myEl = document.getElementById("myParagraph");
 
-      if(myEl.classList.contains("redText")){
-        myEl.classList.remove("redText");
-      }else{
-        myEl.classList.add("redText");
-      }
+      // notifyUser("This is my message","success")
+      // notifyModal("Error!","<em>Hello, World</em>", "success","Okay")
+      // attention.toast({
+      //   msg: "Hello, World!",
+      //   icon: "success",
+      // })
+
+      attention.success({
+        msg: "Hello",
+        icon: "success"
+      })
+
+
 
 
     })
@@ -254,6 +264,88 @@
     const rangePicker = new DateRangePicker(elem, {
       format: "yyyy-mm-dd",
     });
+
+    function notifyUser (msg,msgType ){
+        notie.alert({
+          type: msgType,
+          text: msg,
+        })
+    }
+
+    function  notifyModal (title, text, icon, confirmationButton){
+      Swal.fire({
+        title: title,
+        html: text,
+        icon: icon,
+        confirmButtonText: confirmationButton,
+      })
+    }
+
+    function  Prompt(){
+      let toast = function (c){
+
+        const {
+                msg = "",
+                icon = "success",
+                position= "top-end",
+
+        } = c;
+
+        const Toast = Swal.mixin({
+          toast: true,
+          title: msg,
+          position: position,
+          icon: icon,
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({});
+      }
+
+      let success = function (c){
+
+        const {
+                msg = "",
+                title = "",
+                footer = '<a href="#">Next</a>',
+                icon = "success",
+        } = c;
+        Swal.fire({
+          icon: icon ,
+          title: title,
+          text: msg,
+          footer: footer,
+        });
+      }
+
+
+      let errorFun = function (c){
+
+        const {
+          msg = "Oops!",
+          title = "",
+          footer = '<a href="#">Why do I have this issue?</a>',
+          icon = "error",
+        } = c;
+
+        Swal.fire({
+          icon: icon ,
+          title: title,
+          text: msg,
+          footer: footer,
+        });
+      }
+
+      return {
+        toast: toast,
+        success: success,
+      }
+    }
 
   </script>
   </body>
