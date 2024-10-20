@@ -53,6 +53,28 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplateAdvanced(w, "make-reservation.page.tmpl", &models.TemplateData{})
+}
+
+// Render the room page - generals
+func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplateAdvanced(w, "majors.page.tmpl", &models.TemplateData{})
+}
+
+// Render the room page - majors
+func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplateAdvanced(w, "generals.page.tmpl", &models.TemplateData{})
+}
+
+func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplateAdvanced(w, "search-availability.page.tmpl", &models.TemplateData{})
+}
+
+func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplateAdvanced(w, "contact.page.tmpl", &models.TemplateData{})
+}
+
 func addValues(x, y int) int {
 	return x + y
 }

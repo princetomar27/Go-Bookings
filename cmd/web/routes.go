@@ -22,6 +22,12 @@ func chiRoutes(app *config.AppConfig) http.Handler {
 	// Register the routes
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
+	mux.Get("/make-reservation", handlers.Repo.Reservation)
+	mux.Get("/search-availability", handlers.Repo.Availability)
+
+	mux.Get("/generals-quarters", handlers.Repo.Generals)
+	mux.Get("/majors-suite", handlers.Repo.Majors)
+	mux.Get("/contact", handlers.Repo.Contact)
 
 	// Get static files to render
 	staticFileServer := http.FileServer(http.Dir("./static/"))
