@@ -1,9 +1,10 @@
 package render
 
 import (
-	"bookings/pkg/config"
-	"bookings/pkg/models"
+	"bookings/internal/config"
+	"bookings/internal/models"
 	"bytes"
+	"github.com/justinas/nosurf"
 	"html/template"
 	"log"
 	"net/http"
@@ -17,11 +18,13 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
-func RenderTemplateAdvanced(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+func RenderTemplateAdvanced(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template
 	if app.UseCache {
@@ -37,7 +40,7 @@ func RenderTemplateAdvanced(w http.ResponseWriter, tmpl string, td *models.Templ
 	}
 	// Get the value from the map as buffer and execute it directly : FOR FINER GRAINED ERROR CHECKING
 	buf := new(bytes.Buffer)
-	td = AddDefaultData(td)
+	td = AddDefaultData(td, r)
 	_ = t.Execute(buf, td)
 
 	// render the template
